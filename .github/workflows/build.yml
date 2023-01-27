@@ -16,5 +16,5 @@ jobs:
           ts=`date +%Y%m%d-%H%M%S`
           mkdir output
           mkdir -p output/$ts
-          date | tee > output/$ts/now.txt
+          date | tee output/$ts/now.txt
           find output
