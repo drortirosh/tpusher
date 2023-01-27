@@ -5,6 +5,7 @@ on:
       - '*'
   pull_request:
     types: [opened, reopened, synchronize]
+  workflow_dispatch:
 
 jobs:
 
@@ -12,9 +13,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: |
+      - name: create output file
+        run: |
           ts=`date +%Y%m%d-%H%M%S`
           mkdir output
           mkdir -p output/$ts
           date | tee output/$ts/now.txt
           find output
+      - name: Pushes to another repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'output'
+          destination-github-username: 'drortirosh'
+          destination-repository-name: 'tpusher-results'
+          user-email: tpusher@here.com
+          target-branch: main
