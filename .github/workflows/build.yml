@@ -13,7 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: create output file
+      - name: read previous output
+        run: git clone --depth 1 https://github.com/drortirosh/tpusher-results.git output
+      - name: create new output file
         run: |
           ts=`date +%Y%m%d-%H%M%S`
           mkdir output
